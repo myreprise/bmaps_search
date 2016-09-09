@@ -56,8 +56,8 @@ angular.module('bservice', [])
 				//create a popup window for each record
 
 				//push 
-				locations.push(new Location(respondent.location[0], respondent.location[1]))
-
+				locations.push(new Location(respondent.longitude, respondent.latitude))
+				console.log("pushed locations to array.");
 				//
 			} //end of the for loop
 
@@ -78,7 +78,8 @@ angular.module('bservice', [])
 			if(!map){
 
 				var map = new BMap.Map('map', {
-					mapType: BMAP_SATELLITE_MAP
+					mapType: BMAP_SATELLITE_MAP,
+					zoom: 8
 				});
 
 				map.centerAndZoom(new BMap.Point(longitude,latitude), 14);

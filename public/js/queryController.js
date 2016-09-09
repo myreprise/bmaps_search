@@ -12,10 +12,11 @@ queryController.controller('queryController', function($scope, $log, $http, $roo
 
 
 	//Query paraments incorporated into a JSON queryBody
-	$scope.queryRespondents = function(){
+	$scope.queryLocations = function(){
 		//Assemble queryBody
 		queryBody = {
-			gender: $scope.formData.gender,
+			residence: $scope.formData.residence,
+			block: $scope.formData.block
 		};
 
 		//Post the queryBody to the /query POST route to retrieve filtered results
