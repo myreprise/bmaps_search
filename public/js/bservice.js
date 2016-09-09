@@ -56,7 +56,7 @@ angular.module('bservice', [])
 				//create a popup window for each record
 
 				//push 
-				locations.push(new Location(respondent.longitude, respondent.latitude))
+				locations.push(new Location(respondent.longitude, respondent.latitude, respondent.residence))
 				console.log("pushed locations to array.");
 				//
 			} //end of the for loop
@@ -65,9 +65,10 @@ angular.module('bservice', [])
 		} //end of convertToMapPoints
 
 		//constructor for a location
-		var Location = function(longitude, latitude){
+		var Location = function(longitude, latitude, name){
 			this.longitude = longitude;
 			this.latitude = latitude;
+			this.name = name;
 		};
 
 		//Initialize the map
@@ -85,16 +86,28 @@ angular.module('bservice', [])
 				map.centerAndZoom(new BMap.Point(longitude,latitude), 14);
 				map.addControl(new BMap.NavigationControl()); 
 
-				//map.enableScrollWheelZoom();
+				map.enableScrollWheelZoom();
 				map.enableContinuousZoom();
 			} // end of if map not created
 
 			//if a filter was used
 
+
+			function addClickHandler(content, marker){
+				marker.addEventListener("click", function(e){
+					var p = e.target;
+					var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+					var infoWindow = new BMap.InfoWindow(content, { width: 200, height: 60})
+					map.openInfoWindow(infoWindow, point);
+				})
+			}
+
 			//loop through each location
 			locations.forEach(function(item){
 				var marker = new BMap.Marker(new BMap.Point(item.longitude, item.latitude));
+				var content = item.name;
 				map.addOverlay(marker);
+				addClickHandler(content, marker);
 			}); // end of the forEach call
 
 
